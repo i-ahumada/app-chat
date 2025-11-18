@@ -1,10 +1,8 @@
-"use client";
-
 import ChatList from "./ChatList";
+import { chatsServices } from "../services/chat.service";
+
 
 function ChatPanel() {
-
-    // Hook buscar los chats o qsy
 
     return ( 
         <div className="px-3 py-5">

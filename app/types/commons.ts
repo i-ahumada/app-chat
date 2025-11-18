@@ -1,10 +1,15 @@
 
-export type Message = {
+export type MessageType = {
     sender: string,
     content: string,
 }
 
 export type ChatType = {
     id: string,
-    messages: Message[],
+    messages: MessageType[],
+}
+
+export type ChatResponseType = {
+    status: number,
+    chat: ChatType[]
 }

@@ -3,7 +3,7 @@
 import Avatar from "boring-avatars";
 import { splitChatIdForUser } from "@/app/functions/helper";
 import { useUserId } from "@/app/context/UserContext";
-
+import Link from "next/link";
 
 type ChatButtonProps = {
     chatId: string,
@@ -15,7 +15,7 @@ function SelectChatButton({chatId, lastMessage}: ChatButtonProps) {
     const { mine, other } = splitChatIdForUser(chatId, userId);
 
     return (  
-        <button className="
+        <Link href={`/chats/${chatId}`} className="
             group
             w-full 
             rounded-xl 
@@ -69,7 +69,7 @@ function SelectChatButton({chatId, lastMessage}: ChatButtonProps) {
 
                 </div>
             </div>
-        </button>
+        </Link>
 
     );
 }
