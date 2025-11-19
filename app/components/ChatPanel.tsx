@@ -1,42 +1,31 @@
-import ChatList from "./ChatList";
-import { chatsServices } from "../services/chat.service";
+"use client";
 
+import ChatList from "./ChatList";
+import axios from "axios";
+import { useUserId } from "../context/UserContext";
+import { useEffect, useState } from "react";
+import { useChats } from "../context/ChatContext";
+import { ChatType } from "../types/commons";
 
 function ChatPanel() {
-    const chats = [
-            {
-                id: "8ea7fd5f-3d61-4af3-9ec2-79e1c78f1d81_8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                messages: [
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "addss",
-                        content: "Ni en pedo"
-                    }
-                ],
-            }
-        ]
-    return ( 
+    const chatContext = useChats();
+    const userId = useUserId();
+
+    useEffect(() => {
+        if (!userId) return;
+
+        async function loadChats() {
+            const res = await axios.get(`/api/users/${userId}`);
+            const {chats} = res.data
+            chatContext.setChats(chats);
+        }
+
+        loadChats();
+    }, [userId]);
+
+    return (
         <div className="px-3 py-5">
-            <ChatList chats={chats}/>
+            <ChatList />
         </div>
     );
 }

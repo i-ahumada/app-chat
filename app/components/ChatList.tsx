@@ -6,19 +6,13 @@ import { ChatType, MessageType } from "../types/commons";
 import { useChats } from "../context/ChatContext";
 import { useUserId } from "../context/UserContext";
 
-type ChatListProps = {
-    chats: ChatType[]
-} 
-
-function ChatList({chats} : ChatListProps) {
+function ChatList() {
     const chatContext = useChats();
     const userId = useUserId();
 
     useEffect(()=>{
         if (!userId) return;
 
-        chatContext.setChats(chats)
-        console.log(userId)
         const ev = new EventSource(`/api/sse?userId=${userId}`);
 
         ev.addEventListener("chat-created", (e) => {
@@ -36,7 +30,6 @@ function ChatList({chats} : ChatListProps) {
             });
         });
 
-        // --- MENSAJE RECIBIDO ---
         ev.addEventListener("message-received", (e) => {
             const { chatId, message } = JSON.parse(e.data);
 
@@ -47,13 +40,15 @@ function ChatList({chats} : ChatListProps) {
                         : chat
                 )
             );
+            
         });
 
-        // --- CHAT ELIMINADO ---
         ev.addEventListener("chat-deleted", (e) => {
             const { chatId } = JSON.parse(e.data);
-            chatContext.chats.filter(c => c.id !== chatId)
-            chatContext.setChats(chatContext.chats);
+            
+            chatContext.setChats(prev =>
+                prev.filter(c => c.id !== chatId)
+            );
         });
 
         return () => ev.close();

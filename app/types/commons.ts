@@ -11,5 +11,5 @@ export type ChatType = {
 
 export type ChatResponseType = {
     status: number,
-    chat: ChatType[]
+    chats: ChatType[]
 }

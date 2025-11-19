@@ -15,8 +15,8 @@ export const PATCH = async (
     sender: body.sender,
     content: body.content,
   };
-  console.log("\n\n\n\n\n\n\n\n\n\n\n\nCHAT ID: ", id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n")
-//   await db.addMessage(chatId, message);
+
+  await db.addMessage(id, message);
 
   // quien recibe el mensaje?
   const { other } = splitChatIdForUser(id, body.myUserId);
@@ -33,15 +33,18 @@ export const PATCH = async (
   return NextResponse.json({ ok: true });
 };
 
-export const DELETE = async (_req: NextRequest, { params }: { params: { id: string } }) => {
-  const chatId = params.id;
+export const DELETE = async (
+  req: NextRequest,
+  {params}: {params: { id: string } }
+) => {
+  const {id} = await params;
 
-  await db.removeChat(chatId);
-
-  const { a, b } = getUsersFromChatId(chatId);
-
-  sendSSE(a, "chat-deleted", { chatId });
-  sendSSE(b, "chat-deleted", { chatId });
+  await db.removeChat(id);
+  
+  const { a, b } = getUsersFromChatId(id);
+  
+  sendSSE(a, "chat-deleted", { chatId: id });
+  sendSSE(b, "chat-deleted", { chatId: id });
 
   return NextResponse.json({ ok: true });
 };

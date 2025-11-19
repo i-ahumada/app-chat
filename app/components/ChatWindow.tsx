@@ -14,8 +14,10 @@ function ChatWindow({ chatId } : ChatWindowProps) {
     const userId = useUserId();
     const chat = chatContext.chats.find(c => c.id === chatId);
     console.log(chatId)
-    return ( 
-        chat?.messages.map((c, i) => <ChatMessage key={i} mine={c.sender == userId} content={c.content}/>)
+    return (
+        <div className="px-4">
+            {chat?.messages.map((c, i) => <ChatMessage key={i} mine={c.sender == userId} content={c.content}/>)}
+        </div> 
     );
 }
 

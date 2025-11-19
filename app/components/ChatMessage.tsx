@@ -7,7 +7,7 @@ type ChatMessageProps = {
 
 export default function ChatMessage({ mine, content }: ChatMessageProps) {
     return (
-        <div className={`w-full flex ${mine ? "justify-end" : "justify-start"} my-2`}>
+        <div className={`w-full flex ${mine ? "justify-end" : "justify-start"} my-1`}>
             <div
                 className={`
                     max-w-[300px]
