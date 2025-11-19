@@ -28,9 +28,10 @@ function EndChatButton({ chatId }: EndChatButtonProps) {
             disabled={loading}
             className="
                 px-3 py-1 rounded-md
-                bg-gray-100 dark:bg-gray-800
-                hover:bg-gray-200 hover:dark:bg-gray-700
-                disabled:opacity-50
+                bg-red-300 dark:bg-red-900 
+                hover:bg-red-200 hover:dark:bg-red-700 
+                transition-colors duration-150
+                disabled:opacity-50 cursor-pointer
             "
         >
             {loading ? "Cerrando..." : "Cerrar chat"}

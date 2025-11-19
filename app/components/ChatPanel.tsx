@@ -5,7 +5,7 @@ import axios from "axios";
 import { useUserId } from "../context/UserContext";
 import { useEffect, useState } from "react";
 import { useChats } from "../context/ChatContext";
-import { ChatType } from "../types/commons";
+
 
 function ChatPanel() {
     const chatContext = useChats();

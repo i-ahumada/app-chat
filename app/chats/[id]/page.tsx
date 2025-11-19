@@ -9,7 +9,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
 
     return (
         <div className="h-full flex flex-col">
-            <div className="flex-[1] flex items-center justify-between px-4 min-h-0 border-b border-neutral-800">
+            <div className="flex-[1] flex items-center justify-between px-4 min-h-0 border-b border-neutral-300 dark:border-neutral-700">
                 <ChatInfo chatId={id}/>
                 <EndChatButton chatId={id}/>
             </div>

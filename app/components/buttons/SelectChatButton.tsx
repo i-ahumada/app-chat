@@ -50,12 +50,12 @@ function SelectChatButton({chatId, lastMessage}: ChatButtonProps) {
                 </div>
 
                 <div className="relative mt-1">
-                    <i className="
+                    <em className="
                     block whitespace-nowrap overflow-hidden
                     transition-colors duration-150
                     ">
                     {lastMessage}
-                    </i>
+                    </em>
 
                     <div className="
                     absolute right-0 top-0 h-full w-10 pointer-events-none

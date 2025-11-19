@@ -19,9 +19,9 @@ function ChatInfo({ chatId }: ChatInfoProps) {
                 variant="beam"
                 size={40}
             />
-            <span className="text-gray-300 ">
+            <strong className="dark:text-gray-300">
                 {other}
-            </span>
+            </strong>
         </div>
     );
 }
