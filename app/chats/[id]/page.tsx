@@ -12,7 +12,7 @@ export default async function ChatPage({ params }: { params: Promise<{ id: strin
         <div>
             <ChatInfo />
             <ChatWindow chatId={id}/>
-            <SendMessageButton/>
+            <SendMessageButton chatId={id}/>
         </div>
     );
 }

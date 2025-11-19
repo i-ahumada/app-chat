@@ -5,7 +5,7 @@ import { ChatType } from "../types/commons";
 
 export type ChatContextType = {
   chats: ChatType[];
-  setChats: (next: ChatType[]) => void;
+  setChats: React.Dispatch<React.SetStateAction<ChatType[]>>;
 };
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);

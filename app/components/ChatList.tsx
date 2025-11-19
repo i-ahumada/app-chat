@@ -2,69 +2,68 @@
 
 import { useEffect, useState } from "react";
 import SelectChatButton from "./buttons/SelectChatButton";
-import { ChatType } from "../types/commons";
+import { ChatType, MessageType } from "../types/commons";
 import { useChats } from "../context/ChatContext";
+import { useUserId } from "../context/UserContext";
 
-function ChatList() {
+type ChatListProps = {
+    chats: ChatType[]
+} 
+
+function ChatList({chats} : ChatListProps) {
     const chatContext = useChats();
-    
-    useEffect(()=>{
-        chatContext.setChats([
-            {
-                id: "8ea7fd5f-3d61-4af3-9ec2-79e1c78f1d81_8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                messages: [
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "8f2b0c41-0e17-4e3b-baf4-d3cbe91c62c4",
-                        content: "sexo?"
-                    },
-                    {
-                        sender: "addss",
-                        content: "Ni en pedo"
-                    }
-                ],
-            }
-        ])
+    const userId = useUserId();
 
-        const ev = new EventSource("/api/sse");
+    useEffect(()=>{
+        if (!userId) return;
+
+        chatContext.setChats(chats)
+        console.log(userId)
+        const ev = new EventSource(`/api/sse?userId=${userId}`);
 
         ev.addEventListener("chat-created", (e) => {
-            const data = JSON.parse(e.data);
-            console.log("Nuevo chat:", data);
+            const { chatId } = JSON.parse(e.data);
+            console.log("chat-created: ", chatId);
+            chatContext.setChats((prev: ChatType[]) => {
+                if (prev.some(c => c.id === chatId)) return prev; // evitar duplicados
+                    return [
+                    ...prev,
+                    {
+                        id: chatId as string,
+                        messages: [] as MessageType[],
+                    }
+                ];
+            });
         });
 
+        // --- MENSAJE RECIBIDO ---
         ev.addEventListener("message-received", (e) => {
-            const data = JSON.parse(e.data);
-            console.log("Nuevo mensaje:", data);
+            const { chatId, message } = JSON.parse(e.data);
+
+            chatContext.setChats(prev =>
+                prev.map(chat =>
+                    chat.id === chatId
+                        ? { ...chat, messages: [...chat.messages, message] }
+                        : chat
+                )
+            );
         });
 
+        // --- CHAT ELIMINADO ---
         ev.addEventListener("chat-deleted", (e) => {
-            const data = JSON.parse(e.data);
-            console.log("Chat eliminado:", data);
+            const { chatId } = JSON.parse(e.data);
+            chatContext.chats.filter(c => c.id !== chatId)
+            chatContext.setChats(chatContext.chats);
         });
 
         return () => ev.close();
-    }, [])
+
+    }, [userId])
 
     return (  
         <div className="flex flex-col gap-3">
         {chatContext.chats.map((c: ChatType) => (
-            <SelectChatButton key={c.id} chatId={c.id} lastMessage={c.messages[c.messages.length - 1].content}/>
+            <SelectChatButton key={c.id} chatId={c.id} lastMessage={c.messages.length > 0? c.messages[c.messages.length - 1].content: ""}/>
         ))}
         </div>
     );

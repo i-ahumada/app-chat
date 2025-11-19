@@ -2,7 +2,7 @@ import fs from "fs/promises";
 import path from "path";
 import { ChatType, MessageType } from "../types/commons";
 
-const DB_PATH = path.join(process.cwd(), "db.json");
+const DB_PATH = path.join(process.cwd(), "/app/repositories/db.json");
 
 class ChatsDB {
   // Leer el archivo
