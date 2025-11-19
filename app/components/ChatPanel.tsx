@@ -1,26 +1,19 @@
 "use client";
 
 import ChatList from "./ChatList";
-import axios from "axios";
 import { useUserId } from "../context/UserContext";
-import { useEffect, useState } from "react";
-import { useChats } from "../context/ChatContext";
-
+import { useEffect } from "react";
+import { useChats } from "../hooks/useChats";
+import { useSSE } from "../hooks/useSSE";
 
 function ChatPanel() {
-    const chatContext = useChats();
+    const { getAll } = useChats();
     const userId = useUserId();
+    useSSE();
 
     useEffect(() => {
         if (!userId) return;
-
-        async function loadChats() {
-            const res = await axios.get(`/api/users/${userId}`);
-            const {chats} = res.data
-            chatContext.setChats(chats);
-        }
-
-        loadChats();
+        getAll();
     }, [userId]);
 
     return (

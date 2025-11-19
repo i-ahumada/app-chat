@@ -10,9 +10,3 @@ export function splitChatIdForUser(chatId: string, myUserId: string) {
 
     return { mine, other };
 }
-
-export function getUsersFromChatId(chatId: string) {
-    const [a, b] = chatId.split("_");
-    if (!a || !b) throw new Error("Invalid chatId");
-    return { a, b };
-}

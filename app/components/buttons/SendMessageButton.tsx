@@ -1,28 +1,19 @@
 "use client";
 
 import { useUserId } from "@/app/context/UserContext";
+import { useChats } from "@/app/hooks/useChats";
 import { useState } from "react";
 
-function SendMessageButton({ chatId }: { chatId: string }) {
+function SendMessageButton() {
     const userId = useUserId();
     const [loading, setLoading] = useState(false);
     const [content, setContent] = useState("");
+    const { sendMessage, activeChat } =  useChats();
 
-    async function sendMessage() {
-        if (!userId || !content.trim()) return;
-
+    function handleClick() {
+        if (!userId || !content.trim() || !activeChat) return;
         setLoading(true);
-
-        await fetch(`/api/chats/${chatId}`, {
-            method: "PATCH",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                sender: userId,
-                myUserId: userId,
-                content,
-            }),
-        });
-
+        sendMessage(activeChat, content);
         setContent("");
         setLoading(false);
     }
@@ -35,7 +26,7 @@ function SendMessageButton({ chatId }: { chatId: string }) {
                 type="text"
                 value={content}
                 onChange={(e) => setContent(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && sendMessage()}
+                onKeyDown={(e) => e.key === "Enter" && handleClick()}
                 placeholder="Escribe un mensaje..."
                 className="
                     flex-1 px-3 py-2 rounded-md 
@@ -48,7 +39,7 @@ function SendMessageButton({ chatId }: { chatId: string }) {
 
             {/* Botón */}
             <button
-                onClick={sendMessage}
+                onClick={handleClick}
                 className="
                     px-4 py-2 rounded-md w-20
                     bg-gray-100 dark:bg-gray-800

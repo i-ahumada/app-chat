@@ -1,23 +1,18 @@
 "use client";
 
+import { useChats } from "@/app/hooks/useChats";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-type EndChatButtonProps = {
-    chatId: string;
-};
-
-function EndChatButton({ chatId }: EndChatButtonProps) {
+function EndChatButton() {
+    const { deleteChat, activeChat } = useChats();
     const router = useRouter();
     const [loading, setLoading] = useState(false);
 
-    async function endChat() {
+    function endChat() {
+        if (!activeChat) return; 
         setLoading(true);
-
-        await fetch(`/api/chats/${chatId}`, {
-            method: "DELETE",
-        });
-
+        deleteChat(activeChat); 
         router.push("/");
         router.refresh();
     }
@@ -34,7 +29,7 @@ function EndChatButton({ chatId }: EndChatButtonProps) {
                 disabled:opacity-50 cursor-pointer
             "
         >
-            {loading ? "Cerrando..." : "Cerrar chat"}
+            {loading ? "Cerrando..." : "Terminar chat"}
         </button>
     );
 }

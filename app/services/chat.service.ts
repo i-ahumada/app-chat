@@ -1,24 +1,24 @@
-// app/services/products.service.ts
-import { ChatType, ChatResponseType } from "../types/commons";
+import { ChatResponseType } from "../types/commons";
 import axios from "axios";
 
 export const chatsServices = {
-    getById: async (chatId: string): Promise<ChatResponseType> => {
-        const res = await axios.get(`/api/chats/${chatId}`);
-        return res.data;
-    },
+  getById: (chatId: string): Promise<ChatResponseType> => {
+    return axios.get(`/api/chats/${chatId}`).then(res => res.data);
+  },
 
-    getByUUID: async (uuid: string): Promise<ChatResponseType> => {
-        const res = await axios.get(`/api/users/${uuid}`);
-        return res.data;
-    },
+  getAll: (uuid: string): Promise<ChatResponseType> => {
+    return axios.get(`/api/users/${uuid}`).then(res => res.data);
+  },
 
-    create: async (chat: ChatType): Promise<ChatResponseType> => {
-        const res = await axios.post("/api/chats", chat);
-        return res.data;
-    },
+  create: (chatPayload: { id: string; creator: string; messages: any[] }): Promise<ChatResponseType> => {
+    return axios.post("/api/chats", chatPayload).then(res => res.data);
+  },
 
-    delete: async (chatId: number): Promise<void> => {
-        axios.delete(`/api/chats/${chatId}`);
-    },
+  delete: (chatId: string, userId: string): Promise<void> => {
+    return axios.delete(`/api/chats/${chatId}`, { data: { sender: userId } }).then(() => {});
+  },
+
+  sendMessage: (chatId: string, userId: string, content: string): Promise<void> => {
+    return axios.patch(`/api/chats/${chatId}`, { sender: userId, content })
+  },
 };

@@ -1,11 +1,13 @@
 "use client";
 
 import { useUserId } from "@/app/context/UserContext";
+import { useChats } from "@/app/hooks/useChats";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 
 export default function CreateChatModal({ onClose }: { onClose: () => void }) {
     const userId = useUserId();
+    const { createChat } = useChats();
 
     const schema = Yup.object({
         otherId: Yup.string()
@@ -13,15 +15,9 @@ export default function CreateChatModal({ onClose }: { onClose: () => void }) {
             .required("Campo obligatorio"),
     });
 
-    async function createChat(values: { otherId: string }) {
-        const chatId = `${userId}_${values.otherId}`;
-
-        await fetch("/api/chats", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ id: chatId }),
-        });
-
+    function handleClick(values: { otherId: string }) {
+        const chatId = [userId, values.otherId].sort().join("_");
+        createChat(chatId);
         onClose();
     }
 
@@ -36,7 +32,7 @@ export default function CreateChatModal({ onClose }: { onClose: () => void }) {
                 <Formik
                     initialValues={{ otherId: "" }}
                     validationSchema={schema}
-                    onSubmit={createChat}
+                    onSubmit={handleClick}
                 >
                     {({ isSubmitting }) => (
                         <Form className="flex flex-col gap-4">

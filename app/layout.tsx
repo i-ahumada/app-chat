@@ -3,16 +3,17 @@ import { ChatProvider } from "./context/ChatContext";
 import Navbar from "./components/Navbar";
 import ChatPanel from "./components/ChatPanel";
 import "./globals.css";
+import { NotificationProvider } from "./context/NotificationContext";
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="h-screen w-screen overflow-hidden">
-
+       <NotificationProvider>
         <UserProvider>
           <ChatProvider>
-
+            
             <div className="grid grid-cols-[1fr_3fr_11fr] h-full w-full">
 
               <div className="h-full min-w-0  border-r border-neutral-300 dark:border-neutral-700 flex flex-col">
@@ -31,6 +32,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
           </ChatProvider>
         </UserProvider>
+      </NotificationProvider>
 
       </body>
     </html>

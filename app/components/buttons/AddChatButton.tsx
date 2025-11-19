@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useUserId } from "@/app/context/UserContext";
 import CreateChatModal from "../modals/CreateChatModal";
 
 function AddChatButton() {
