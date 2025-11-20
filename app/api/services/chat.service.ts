@@ -21,7 +21,7 @@ export const chatServices = {
 
   addMessage: async (chatId: string, message: MessageType) => {
     if (!chatId) throw new Error("Debe proveer chatId");
-    if (!message.sender || !message.content) throw new Error("El mensaje debe tener sender y content");
+    if (!message.sender || !message.content || !message.time) throw new Error("El mensaje debe tener sender, content y la hora");
 
     const chat = await db.getById(chatId);
     if (!chat) throw new Error("Chat no encontrado");

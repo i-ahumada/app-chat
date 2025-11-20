@@ -29,15 +29,15 @@ export const useChats = () => {
             .catch(err => handleError(err, "Error creando chat"));
     };
 
-    const sendMessage = (chatId: string, content: string) => {
+    const sendMessage = (chatId: string, content: string, time: string) => {
         if (!userId) return;
 
-        chatsServices.sendMessage(chatId, userId, content)
+        chatsServices.sendMessage(chatId, userId, content, time)
             .then(() => {
                 setChats(prev =>
                     prev.map(chat =>
                         chat.id === chatId
-                            ? { ...chat, messages: [...chat.messages, { sender: userId, content }] }
+                            ? { ...chat, messages: [...chat.messages, { sender: userId, content, time }] }
                             : chat
                     )
                 );

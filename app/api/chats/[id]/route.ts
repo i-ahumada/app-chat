@@ -8,7 +8,7 @@ export const PATCH = async (
   try {
     const { id } = await params;
     const body = await req.json();
-    const message = { sender: body.sender, content: body.content };
+    const message = { sender: body.sender, content: body.content, time: body.time };
     await chatServices.addMessage(id, message);
     return NextResponse.json({ ok: true });
   } catch (err: any) {

@@ -18,7 +18,7 @@ export const chatsServices = {
     return axios.delete(`/api/chats/${chatId}`, { data: { sender: userId } }).then(() => {});
   },
 
-  sendMessage: (chatId: string, userId: string, content: string): Promise<void> => {
-    return axios.patch(`/api/chats/${chatId}`, { sender: userId, content })
+  sendMessage: (chatId: string, userId: string, content: string, time: string): Promise<void> => {
+    return axios.patch(`/api/chats/${chatId}`, { sender: userId, content, time})
   },
 };

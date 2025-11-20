@@ -1,6 +1,7 @@
 export type MessageType = {
     sender: string,
     content: string,
+    time: string,
 }
 
 export type ChatType = {

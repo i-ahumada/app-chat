@@ -13,7 +13,11 @@ function SendMessageButton() {
     function handleClick() {
         if (!userId || !content.trim() || !activeChat) return;
         setLoading(true);
-        sendMessage(activeChat, content);
+        const time = new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+        });
+        sendMessage(activeChat, content, time);
         setContent("");
         setLoading(false);
     }
