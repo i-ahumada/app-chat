@@ -29,8 +29,6 @@ function Navbar() {
                 >
                     <Avatar name={userId} variant="beam" size={50} />
                 </button>
-
-                {/* HOVER TAG (UUID + Ícono copiar) */}
                 <div
                     className="
                         absolute 
@@ -47,12 +45,8 @@ function Navbar() {
                     "
                 >
                     <span>{userId}</span>
-
-                    {/* Ícono cuadrado de "copiar" */}
-                    <div className="w-3 h-3 border border-gray-700 dark:border-gray-300 rounded-sm"></div>
                 </div>
 
-                {/* Texto "Copiado" */}
                 {copied && (
                     <span
                         className="

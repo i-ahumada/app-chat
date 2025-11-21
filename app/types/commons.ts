@@ -13,3 +13,8 @@ export type ChatResponseType = {
     status: number,
     chats: ChatType[]
 }
+
+export type SSEClient = {
+  userId: string;
+  controller: ReadableStreamDefaultController;
+};

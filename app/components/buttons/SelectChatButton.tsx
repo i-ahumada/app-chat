@@ -3,7 +3,6 @@
 import Avatar from "boring-avatars";
 import { splitChatIdForUser } from "@/app/functions/helper";
 import { useUserId } from "@/app/context/UserContext";
-import { useChats } from "@/app/hooks/useChats";
 import { useRouter } from "next/navigation";
 
 type ChatButtonProps = {
@@ -13,13 +12,11 @@ type ChatButtonProps = {
 
 function SelectChatButton({ chatId, lastMessage }: ChatButtonProps) {
     const userId = useUserId(); 
-    const { mine, other } = splitChatIdForUser(chatId, userId);
-    const { setActiveChat } = useChats();
+    const { other } = splitChatIdForUser(chatId, userId);
     const router = useRouter();
 
     const handleClick = () => {
-        setActiveChat(chatId);  
-        router.push(`/chats/${chatId}`); 
+        router.push(`/chats/${chatId}`);
     };
 
     return (  

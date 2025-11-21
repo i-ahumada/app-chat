@@ -16,8 +16,7 @@ function ChatWindow() {
     const isUserAtBottom = () => {
         const el = containerRef.current;
         if (!el) return false;
-
-        const threshold = 80; // px de tolerancia
+        const threshold = 80; 
         const position = el.scrollTop + el.clientHeight;
         const height = el.scrollHeight;
 
@@ -49,7 +48,6 @@ function ChatWindow() {
                     time={c.time}
                 />
             ))}
-
             {/* Marcador invisible al fondo */}
             <div ref={bottomRef}></div>
         </div>

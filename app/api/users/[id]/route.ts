@@ -4,13 +4,16 @@ import { chatServices } from "../../services/chat.service";
 
 export const GET = async (
   req: NextRequest,
-  {params}: {params: { id: string } }
+  { params }: { params: { id: string } }
 ) => {
   try {
     const { id } = await params;
     const chats = await chatServices.getChatsByUser(id);
-    return NextResponse.json({ status: 200, chats });
+    return NextResponse.json({ ok: true, chats },{ status: 200 } );
   } catch (err: any) {
-    return NextResponse.json({ status: 400, error: err.message });
+    return NextResponse.json(
+      { ok: false, error: err.message },
+      { status: 400 }
+    );
   }
 };

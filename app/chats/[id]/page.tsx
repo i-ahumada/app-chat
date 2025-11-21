@@ -1,4 +1,7 @@
-"use client"
+"use client";
+
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 
 import ChatInfo from "@/app/components/ChatInfo";
 import ChatWindow from "@/app/components/ChatWindow";
@@ -7,7 +10,31 @@ import EndChatButton from "@/app/components/buttons/EndChatButton";
 import { useChats } from "@/app/hooks/useChats";
 
 export default function ChatPage() {
-    const { activeChat } = useChats();
+    const params = useParams();    
+    const chatId = params?.id as string;
+    const { activeChat, setActiveChat, getChatById } = useChats();
+    const [loading, setLoading] = useState(true); 
+
+    useEffect(() => {
+        if (!chatId) return;
+        console.log("HJSDA");
+        const loadChat = async () => {
+            setActiveChat(chatId);
+            await getChatById(chatId);
+            setLoading(false);
+        };
+
+        loadChat();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="h-full flex flex-col items-center justify-center text-gray-500 dark:text-gray-400 gap-4">
+                <div className="w-12 h-12 border-4 border-gray-100 border-dashed rounded-full animate-spin"></div>
+                <p className="text-lg font-medium animate-pulse">Cargando chat...</p>
+            </div>
+        );
+    }
 
     if (!activeChat) {
         return (
@@ -24,16 +51,16 @@ export default function ChatPage() {
     return (
         <div className="h-full flex flex-col">
             <div className="flex-[1] flex items-center justify-between px-4 min-h-0 border-b border-neutral-300 dark:border-neutral-700">
-                <ChatInfo/>
-                <EndChatButton/>
+                <ChatInfo />
+                <EndChatButton />
             </div>
 
             <div className="flex-[8] min-h-0 overflow-y-auto">
-                <ChatWindow/>
+                <ChatWindow />
             </div>
 
             <div className="flex-[1] min-h-0">
-                <SendMessageButton/>
+                <SendMessageButton />
             </div>
         </div>
     );

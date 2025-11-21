@@ -7,13 +7,13 @@ import { useChats } from "../hooks/useChats";
 import { useSSE } from "../hooks/useSSE";
 
 function ChatPanel() {
-    const { getAll } = useChats();
+    const { getAllChatIdAndLastMessage } = useChats();
     const userId = useUserId();
     useSSE();
 
     useEffect(() => {
         if (!userId) return;
-        getAll();
+        getAllChatIdAndLastMessage();
     }, [userId]);
 
     return (

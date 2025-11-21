@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import ChatPanel from "./components/ChatPanel";
 import "./globals.css";
 import { NotificationProvider } from "./context/NotificationContext";
+import { useSSE } from "./hooks/useSSE";
 
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

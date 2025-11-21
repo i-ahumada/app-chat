@@ -2,6 +2,19 @@
 
 import { createContext, useContext, useState, ReactNode } from "react";
 
+/**
+ * NotificationContext
+ * 
+ * Contexto para manejar notificaciones globales.
+ * - notify({ message, type }): muestra un mensaje de éxito o error que desaparece solo.
+ * - NotificationProvider: envuelve la app y maneja estado interno.
+ * - useNotification: hook para disparar notificaciones desde cualquier componente.
+ * 
+ * Notas:
+ * - Se lanza error si se usa fuera del provider.
+ * - Mensajes desaparecen automáticamente tras 4 segundos.
+ */
+
 type Notification = { message: string; type?: "error" | "success" };
 type NotificationContextType = {
     notify: (notification: Notification) => void;
