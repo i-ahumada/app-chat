@@ -40,14 +40,16 @@ export const chatServices = {
     if (!Array.isArray(chat.messages)) throw new Error("El chat debe tener un arreglo de mensajes");
 
     const exists = await db.getById(chat.id);
-
+    const { other } = splitChatIdForUser(chat.id, chat.creator);
+    
+    if (chat.creator == other) throw new Error("No se puede crear un chat con dos user_id iguales");
+    
     if (exists) throw new Error("El chat ya existe");
     const chatToStore: ChatType = { id: chat.id, messages: chat.messages };
     
     await db.addChat(chatToStore);
-
+    
     // Notificar al otro usuario
-    const { other } = splitChatIdForUser(chat.id, chat.creator);
     sendSSE(other, "chat-created", { chatId: chat.id });
 
     return chatToStore;

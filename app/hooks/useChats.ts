@@ -96,6 +96,7 @@ export const useChats = () => {
             });
             return chat;
         } catch (err) {
+            setActiveChat(null);
             handleError(err, "Error obteniendo chat");
             return null;
         }
