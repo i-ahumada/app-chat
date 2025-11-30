@@ -2,7 +2,7 @@
 
 Aplicación desarrollada con **Next.js + React**, que permite chats privados entre dos usuarios identificados por **IDs temporales** generados automáticamente. Los mensajes se actualizan en tiempo real utilizando **Server-Sent Events (SSE)**.
 
-## ✔️ Funcionalidades
+## Funcionalidades
 
 * **Generación automática de un ID temporal único** al ingresar a la aplicación.
 * **Inicio de chat privado** ingresando el ID temporal de otra persona.
