@@ -1,6 +1,6 @@
 # Chat Privado con IDs Temporales (app-chat)
 
-Aplicación desarrollada con **Next.js + React**, que permite chats privados entre dos usuarios identificados por **IDs temporales** generados automáticamente. Los mensajes se actualizan en tiempo real utilizando **Server-Sent Events (SSE)**.
+Aplicación desarrollada con **Next.js**, que permite chats privados entre dos usuarios identificados por **IDs temporales** generados automáticamente. Los mensajes se actualizan en tiempo real utilizando **Server-Sent Events (SSE)**.
 
 ## Funcionalidades
 
